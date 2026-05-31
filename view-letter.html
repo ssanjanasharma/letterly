@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>letterly</title>
+
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80' fill='none' stroke='%23e91e63' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5'/%3E%3C/svg%3E">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Cormorant+Garamond:wght@600&family=Quicksand:wght@500;600;700&family=Cedarville+Cursive&display=swap"
+        rel="stylesheet">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+            background: url(bg.jpg);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .received-page {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .app-logo {
+            color: #000000;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-logo svg {
+            width: 50px;
+            height: auto;
+        }
+
+        .app-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+
+        .app-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: 0.85rem;
+            color: #555555;
+            letter-spacing: 0.2px;
+        }
+
+
+        .received-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .received-header h1 {
+            font-size: 2.2rem;
+            font-family: 'Cormorant Garamond', serif;
+            margin-bottom: 10px;
+        }
+
+        .received-header p {
+            font-size: 18px;
+        }
+
+        .received-letter {
+
+            position: relative;
+            min-height: 700px;
+            background-image: url("letter.jpg");
+            background-size: cover;
+            background-position: center;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, .12);
+
+        }
+
+        .letter-content {
+            padding: 80px 60px;
+        }
+
+        .letter-date {
+            text-align: right;
+            font-family: 'Cedarville Cursive', cursive;
+            font-size: 24px;
+            color: #222222;
+            margin-bottom: 20px;
+        }
+
+        .letter-watermark {
+            position: absolute;
+            bottom: 25px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.35;
+            pointer-events: none;
+            color: #444444;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        .letter-watermark svg {
+            width: 20px;
+            height: 16px;
+        }
+
+        #recipient {
+            font-family: 'Cedarville Cursive', cursive;
+            font-size: 32px;
+            margin-bottom: 25px;
+
+        }
+
+        #message {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Cedarville Cursive', cursive;
+            font-size: 28px;
+            line-height: 2;
+            color: #111;
+
+        }
+
+        .sticker {
+            position: absolute;
+            width: 120px;
+            pointer-events: none;
+
+        }
+
+        .not-found {
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 100px;
+
+        }
+
+        @media(max-width:768px) {
+
+            .received-letter {
+                min-height: 700px;
+            }
+
+            .letter-content {
+                padding: 60px 25px;
+            }
+
+            #recipient {
+                font-size: 28px;
+            }
+
+            #message {
+                font-size: 22px;
+            }
+
+            .sticker {
+                width: 70px;
+            }
+
+            .letter-date {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .letter-watermark {
+                bottom: 15px;
+                right: 15px;
+                font-size: 11px;
+            }
+
+            .letter-watermark svg {
+                width: 14px;
+                height: 11px;
+            }
+
+            .received-header h1 {
+                font-size: 2rem;
+            }
+
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .action-btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .download-btn {
+            background: #b21f39;
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: #91162b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(178, 31, 57, 0.3);
+        }
+
+        .write-btn {
+            background: transparent;
+            color: #b21f39;
+            border-color: #b21f39;
+        }
+
+        .write-btn:hover {
+            background: rgba(178, 31, 57, 0.05);
+            transform: translateY(-2px);
+        }
+
+        @media(max-width:768px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+                width: 100%;
+            }
+
+            .action-btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        .footer {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            color: #393939;
+            font-family: 'Cormorant Garamond', serif;
+            flex-wrap: wrap;
+        }
+
+        .footer a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        .socials {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .socials a {
+            color: #373737;
+        }
+
+        .socials svg {
+            width: 15px;
+            height: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="received-page">
+
+        <div class="header-container">
+            <div class="app-logo">
+                <svg viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path
+                        d="M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5" />
+                </svg>
+            </div>
+            <div class="app-title">letterly</div>
+            <div class="app-subtitle">made with love. made for love.</div>
+        </div>
+
+        <div class="received-header">
+
+            <h1>
+                You Received A Letter ♡
+            </h1>
+
+            <p>
+                From:
+                <strong id="sender"></strong>
+            </p>
+
+        </div>
+
+        <div id="letterPaper" class="received-letter">
+
+            <div id="stickersLayer"></div>
+
+            <div class="letter-content">
+
+                <div class="letter-date" id="letterDate"></div>
+
+                <h2 id="recipient">
+                    Dear Friend ♡
+                </h2>
+
+                <div id="message"></div>
+
+            </div>
+
+            <div class="letter-watermark">
+                <svg viewBox="0 0 100 80" width="20" height="16" fill="none" stroke="#444444" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5" />
+                </svg>
+                <span>letterly</span>
+            </div>
+
+        </div>
+
+        <div class="action-buttons">
+            <button id="downloadBtn" class="action-btn download-btn">Download Letter 📥</button>
+            <a href="index.html" class="action-btn write-btn">Write Your Own Letter 💌</a>
+        </div>
+
+        <footer class="footer">
+
+            <span>Made by <a href="https://github.com/ssanjanasharma" target="_blank">Sanjana</a></span>
+            <div class="socials">
+
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/sanjana-kumari-sharma/" target="_blank">
+
+                    <svg viewBox="0 0 20 20" fill="currentColor">
+                        <path
+                            d="M4.98 3.5C4.98 4.6 4.1 5.5 3 5.5S1.02 4.6 1.02 3.5 1.9 1.5 3 1.5s1.98.9 1.98 2zM1.5 8h3V22h-3V8zm7.5 0h2.88v1.91h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.59V22h-3v-7.11c0-1.7-.03-3.89-2.37-3.89-2.37 0-2.73 1.85-2.73 3.77V22h-3V8z" />
+                    </svg>
+
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/ssanjana___" target="_blank">
+
+                    <svg viewBox="0 0 22 20" fill="currentColor">
+                        <path
+                            d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5A3.75 3.75 0 0 1 20 7.75v8.5A3.75 3.75 0 0 1 16.25 20h-8.5A3.75 3.75 0 0 1 4 16.25v-8.5A3.75 3.75 0 0 1 7.75 4zm8.75 1a1.25 1.25 0 1 0 0 2.5A1.25 1.25 0 0 0 16.5 5zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" />
+                    </svg>
+
+                </a>
+
+            </div>
+
+        </footer>
+
+    </div>
+
+    <script>
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const id =
+            params.get("id");
+
+        const letter =
+            JSON.parse(
+                localStorage.getItem(
+                    `love-letter-${id}`
+                )
+            );
+
+        if (!letter) {
+
+            document.body.innerHTML = `
+<div class="not-found">
+💔 Letter Not Found
+</div>
+`;
+
+        } else {
+
+            document.getElementById(
+                "sender"
+            ).textContent =
+                letter.sender;
+
+            document.getElementById(
+                "recipient"
+            ).textContent =
+                `Dear ${letter.recipient} ♡`;
+
+            document.getElementById(
+                "message"
+            ).textContent =
+                letter.message;
+
+            const letterDateEl = document.getElementById("letterDate");
+            if (letterDateEl) {
+                letterDateEl.textContent = letter.date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            const layer =
+                document.getElementById(
+                    "stickersLayer"
+                );
+
+            if (letter.stickers) {
+
+                letter.stickers.forEach(
+                    sticker => {
+
+                        const img =
+                            document.createElement("img");
+
+                        img.src =
+                            sticker.src;
+
+                        img.className =
+                            "sticker";
+
+                        img.style.left =
+                            sticker.x + "px";
+
+                        img.style.top =
+                            sticker.y + "px";
+
+                        if (sticker.width) {
+                            img.style.width = sticker.width;
+                        }
+
+                        layer.appendChild(img);
+
+                    });
+            }
+
+        }
+
+        document.getElementById("downloadBtn")?.addEventListener("click", async () => {
+            const paper = document.getElementById("letterPaper");
+            paper.classList.add("printing");
+
+            const canvas = await html2canvas(paper, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                scrollX: 0,
+                scrollY: 0,
+                windowWidth: document.documentElement.clientWidth,
+                windowHeight: document.documentElement.clientHeight
+            });
+
+            paper.classList.remove("printing");
+
+            const link = document.createElement("a");
+            link.download = `love-letter-${id || "received"}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+
+    </script>
+
+</body>
+
+</html>

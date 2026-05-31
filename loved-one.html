@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>letterly</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80' fill='none' stroke='%23e91e63' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5'/%3E%3C/svg%3E">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Cormorant+Garamond:wght@600&family=Quicksand:wght@500;600;700&family=Cedarville+Cursive&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="letter-page">
+
+        <a href="index.html" class="back-btn">
+            ← Back
+        </a>
+
+        <div class="header-container">
+            <div class="app-logo">
+                <svg viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path
+                        d="M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5" />
+                </svg>
+            </div>
+            <div class="app-title">letterly</div>
+            <div class="app-subtitle">made with love. made for love.</div>
+        </div>
+
+        <h1>Letter for your loved ones</h1>
+
+        <input type="text" id="senderName" placeholder="Your Name" class="input-field">
+
+        <input type="text" id="recipientName" placeholder="Recipient Name" class="input-field">
+
+        <div id="loveLetterCanvas" class="love-letter-canvas">
+
+            <div class="click-to-edit-hint">
+                <span>Click to edit</span>
+                <svg width="40" height="40" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M35 10 Q20 15 15 35" />
+                    <path d="M7 27 L15 35 L22 28" />
+                </svg>
+            </div>
+
+            <div class="love-letter-content">
+
+                <div class="letter-date" id="letterDate"></div>
+
+                <h2 id="previewRecipient">
+                    Dear Someone ♡
+                </h2>
+
+                <textarea id="letterText" placeholder="             ✉︎ Little Note ✉︎
+Hey, you.
+Thank you for taking the time to write this letter. Whether it's for your future self, someone you love, or a memory you want to keep close, these words matter.
+Years from now, when this letter is opened, I hope it feels like a warm hug from the past and brings a smile to whoever reads it.
+Until then, take care, make memories, and don't forget to tell the people you love that you love them. hehehe ^_^
+
+With love,
+sanjana :)
+"></textarea>
+
+                <div id="letterPreview"></div>
+
+            </div>
+
+            <div class="letter-watermark">
+                <svg viewBox="0 0 100 80" width="20" height="16" fill="none" stroke="#444444" stroke-width="6"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5" />
+                </svg>
+                <span>letterly</span>
+            </div>
+
+        </div>
+
+        <h3 class="sticker-title">
+            Decorate Your Letter ✨
+        </h3>
+
+        <div class="sticker-panel">
+
+            <img src="stickers/cupcake.png" class="sticker-item">
+            <img src="stickers/spooky.png" class="sticker-item">
+            <img src="stickers/clover.png" class="sticker-item">
+            <img src="stickers/tulip.png" class="sticker-item">
+            <img src="stickers/heart.png" class="sticker-item">
+            <img src="stickers/star.png" class="sticker-item">
+            <img src="stickers/doodle.png" class="sticker-item">
+            <img src="stickers/bug.png" class="sticker-item">
+            <img src="stickers/bunny.png" class="sticker-item">
+            <img src="stickers/letter.png" class="sticker-item">
+
+
+        </div>
+
+        <button id="createLetterBtn" class="send-btn">
+            Create Letter 💌
+        </button>
+
+        <div id="linkBox" class="link-box">
+
+            <input type="text" id="generatedLink" readonly>
+
+            <button id="copyBtn">
+                Copy
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('letterDate').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+    </script>
+
+</body>
+
+</html>

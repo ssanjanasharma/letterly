@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>letterly</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80' fill='none' stroke='%23e91e63' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5'/%3E%3C/svg%3E">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Cormorant+Garamond:wght@600&family=Quicksand:wght@500;600;700&family=Cedarville+Cursive&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="letter-page">
+
+        <a href="index.html" class="back-btn">
+            ← Back
+        </a>
+
+        <div class="header-container">
+            <div class="app-logo">
+                <svg viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path
+                        d="M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5" />
+                </svg>
+            </div>
+            <div class="app-title">letterly</div>
+            <div class="app-subtitle">made with love. made for love.</div>
+        </div>
+
+        <h1>Letter for your future self</h1>
+
+        <div id="futureLetter" class="future-letter">
+
+            <div class="click-to-edit-hint">
+                <span>Click to edit</span>
+                <svg width="40" height="40" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M35 10 Q20 15 15 35" />
+                    <path d="M7 27 L15 35 L22 28" />
+                </svg>
+            </div>
+
+            <div class="letter-overlay">
+
+                <div class="letter-date" id="letterDate"></div>
+
+                <textarea id="futureText" placeholder="Dear me,
+This is your past self. 
+I just wanted to tell you that I'm so proud of you, and I always will be. :D
+You deserve this. You've worked incredibly hard to get here, and all that effort has paid off. I'm really, really, *really* proud of you :)
+I hope you're happy, smiling, and enjoying everything you've achieved.
+Lots of love and joy to you. <3
+Love, Sanjana ^_^
+"></textarea>
+
+                <div id="letterPreview"></div>
+
+            </div>
+
+            <div class="letter-watermark">
+                <svg viewBox="0 0 100 80" width="20" height="16" fill="none" stroke="#444444" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M46 62c-8.5.4-20.2-2-19.6-15 .4-9.2 7.4-15.7 15.7-15 7.2.7 10.4 7.2 10.4 11.1 0-11.8 10.4-19.6 20.2-17.6 9.2 2 12.4 10.4 10.4 17.6-2.6 9.8-13.7 17-22.8 20.2-7.2 2.6-13 3.3-19.6 2-3.9-.9-7.2-3.3-7.2-6.5" />
+                </svg>
+                <span>letterly</span>
+            </div>
+
+        </div>
+
+        <h3 class="sticker-title">
+            Decorate Your Letter ✨
+        </h3>
+
+        <div class="sticker-panel">
+
+            <img src="stickers/cupcake.png" class="sticker-item">
+            <img src="stickers/spooky.png" class="sticker-item">
+            <img src="stickers/clover.png" class="sticker-item">
+            <img src="stickers/tulip.png" class="sticker-item">
+            <img src="stickers/heart.png" class="sticker-item">
+            <img src="stickers/star.png" class="sticker-item">
+            <img src="stickers/doodle.png" class="sticker-item">
+            <img src="stickers/bug.png" class="sticker-item">
+            <img src="stickers/bunny.png" class="sticker-item">
+            <img src="stickers/letter.png" class="sticker-item">
+
+
+        </div>
+
+        <button id="saveBtn" class="myself-send-btn">
+            Download Letter 📥
+        </button>
+
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('letterDate').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+
+        const textarea =
+            document.getElementById("futureText");
+
+        const preview =
+            document.getElementById("letterPreview");
+
+        document
+            .getElementById("saveBtn")
+            .addEventListener("click", async () => {
+
+                preview.textContent =
+                    textarea.value;
+
+                textarea.style.display = "none";
+                preview.style.display = "block";
+
+                const futureLetterEl = document.getElementById("futureLetter");
+                futureLetterEl.classList.add("printing");
+
+                const canvas =
+                    await html2canvas(
+                        futureLetterEl,
+                        {
+                            scale: 2,
+                            useCORS: true,
+                            allowTaint: true,
+                            scrollX: 0,
+                            scrollY: 0,
+                            windowWidth: document.documentElement.clientWidth,
+                            windowHeight: document.documentElement.clientHeight
+                        }
+                    );
+
+                futureLetterEl.classList.remove("printing");
+                textarea.style.display = "block";
+                preview.style.display = "none";
+
+                const link =
+                    document.createElement("a");
+
+                link.download =
+                    "future-letter.png";
+
+                link.href =
+                    canvas.toDataURL("image/png");
+
+                link.click();
+
+            });
+    </script>
+
+</body>
+
+</html>

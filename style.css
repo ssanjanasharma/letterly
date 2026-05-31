@@ -1,0 +1,662 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Cormorant+Garamond:wght@600&family=Quicksand:wght@500;600;700&family=Cedarville+Cursive&display=swap');
+
+:root {
+    --outer-bg: url("bg.jpg");
+    --inner-bg: url("bg1.jpg");
+    --primary: #b21f39;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-image: var(--outer-bg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.app-logo {
+    color: #000000;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-logo svg {
+    width: 50px;
+    height: auto;
+}
+
+.app-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.app-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    color: #555555;
+    letter-spacing: 0.2px;
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.hero-card {
+    width: min(600px, 90%);
+    height: 480px;
+    background-image: var(--inner-bg);
+    background-size: cover;
+    background-position: center;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.subtitle {
+    font-size: 18px;
+    letter-spacing: 4px;
+    line-height: 2;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.hero-card h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.choices {
+    display: flex;
+    gap: 30px;
+}
+
+.choice-btn {
+    padding: 10px 28px;
+    border: 2px solid var(--primary);
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: var(--primary);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.choice-btn:hover {
+    background: rgba(178, 31, 57, 0.05);
+    transform: translateY(-2px);
+}
+
+.footer {
+    margin-top: auto;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.footer a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.socials a {
+    color: #373737;
+}
+
+.socials svg {
+    width: 15px;
+    height: 15px;
+}
+
+.back-btn {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    text-decoration: none;
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 1.1rem;
+    color: black;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    color: #492c11;
+}
+
+.letter-page {
+    max-width: 700px;
+    margin: auto;
+    padding: 30px 10px;
+}
+
+.letter-page h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 2px;
+    border-radius: 12px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    outline: none;
+}
+
+.love-letter-canvas,
+.future-letter {
+    position: relative;
+    width: 100%;
+    min-height: 700px;
+    background-image: url("letter.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.love-letter-content,
+.letter-overlay {
+    padding: 80px 60px;
+}
+
+.letter-date {
+    text-align: right;
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 24px;
+    color: #222222;
+    margin-bottom: 20px;
+}
+
+.letter-watermark {
+    position: absolute;
+    bottom: 25px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.35;
+    pointer-events: none;
+    color: #444444;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10;
+}
+
+.letter-watermark svg {
+    width: 20px;
+    height: 16px;
+}
+
+#previewRecipient {
+    margin-bottom: 25px;
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 32px;
+    color: #111;
+}
+
+#letterText,
+#futureText {
+    width: 100%;
+    min-height: 450px;
+    border: none;
+    resize: none;
+    background: transparent;
+    outline: none;
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 28px;
+    line-height: 2;
+    color: #111;
+    overflow-y: hidden;
+}
+
+#letterPreview {
+    display: none;
+    white-space: pre-wrap;
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 28px;
+    line-height: 2;
+    color: #111;
+}
+
+.send-btn,
+.myself-send-btn {
+    display: block;
+    width: 280px;
+    margin: 30px auto 0;
+    padding: 15px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.send-btn:hover,
+.myself-send-btn:hover {
+    background: #91162b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(178, 31, 57, 0.3);
+}
+
+.sticker-title {
+    margin: 30px 0 15px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+.sticker-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.sticker-item {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    cursor: pointer;
+    background: white;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.sticker-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.draggable-sticker-wrapper {
+    position: absolute;
+    width: 100px;
+    cursor: grab;
+    z-index: 10;
+    user-select: none;
+    border: 2px dashed transparent;
+    padding: 8px;
+    box-sizing: content-box;
+    transition: border-color 0.2s;
+}
+
+.draggable-sticker-wrapper:hover {
+    border-color: rgba(178, 31, 57, 0.4);
+    border-radius: 8px;
+}
+
+.draggable-sticker-wrapper .draggable-sticker {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+}
+
+.sticker-close-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #b21f39;
+    color: white;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    line-height: 1;
+    z-index: 12;
+}
+
+.draggable-sticker-wrapper:hover .sticker-close-btn {
+    opacity: 1;
+}
+
+.sticker-close-btn:hover {
+    transform: scale(1.1);
+}
+
+.link-box {
+    display: none;
+    margin-top: 25px;
+    gap: 10px;
+}
+
+.link-box input {
+    flex: 1;
+    padding: 15px;
+    border-radius: 12px;
+    border: 2px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    outline: none;
+}
+
+.link-box button {
+    border: 2px solid var(--primary);
+    background: transparent;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.link-box button:hover {
+    background: rgba(178, 31, 57, 0.05);
+}
+
+@media (max-width: 1024px) {
+    .hero-card {
+        width: 90%;
+        height: 450px;
+    }
+
+    .hero-card h1 {
+        font-size: 3rem;
+    }
+
+    .choice-title {
+        font-size: 3rem;
+    }
+
+    .letter-page {
+        padding: 80px 20px;
+    }
+
+    .letter-page h1 {
+        font-size: 3rem;
+    }
+
+    .love-letter-content,
+    .letter-overlay {
+        padding: 60px 40px;
+    }
+
+    #letterText,
+    #futureText {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page {
+        padding: 20px;
+    }
+
+    .hero-card {
+        width: 100%;
+        height: 380px;
+        border-radius: 20px;
+    }
+
+    .hero-card h1 {
+        font-size: 2.5rem;
+    }
+
+    .choice-title {
+        font-size: 2.5rem;
+    }
+
+    .choices {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .choice-btn,
+    .choices .btn {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+    }
+
+    .letter-page {
+        padding: 60px 15px;
+    }
+
+    .letter-page h1 {
+        font-size: 2.5rem;
+    }
+
+    .back-btn {
+        top: 20px;
+        left: 20px;
+        font-size: 1rem;
+    }
+
+    .love-letter-canvas,
+    .future-letter {
+        min-height: 600px;
+        border-radius: 15px;
+    }
+
+    .love-letter-content,
+    .letter-overlay {
+        padding: 40px 25px;
+    }
+
+    #previewRecipient {
+        font-size: 26px;
+    }
+
+    #letterText,
+    #futureText {
+        font-size: 20px;
+        min-height: 350px;
+    }
+
+    .send-btn,
+    .myself-send-btn {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .sticker-item {
+        width: 55px;
+        height: 55px;
+    }
+
+    .draggable-sticker-wrapper {
+        width: 80px;
+    }
+
+    .link-box {
+        flex-direction: column;
+    }
+
+    .link-box input,
+    .link-box button {
+        width: 100%;
+    }
+
+    .footer {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin-top: 40px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-card {
+        height: 320px;
+    }
+
+    .hero-card h1 {
+        font-size: 2rem;
+    }
+
+    .choice-title {
+        font-size: 1.8rem;
+    }
+
+    .letter-page h1 {
+        font-size: 1.8rem;
+    }
+
+    #previewRecipient {
+        font-size: 22px;
+    }
+
+    #letterText,
+    #futureText {
+        font-size: 18px;
+    }
+
+    .letter-date {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .letter-watermark {
+        bottom: 15px;
+        right: 15px;
+        font-size: 11px;
+    }
+
+    .letter-watermark svg {
+        width: 14px;
+        height: 11px;
+    }
+
+    .love-letter-content,
+    .letter-overlay {
+        padding: 30px 15px;
+    }
+
+    .sticker-item {
+        width: 50px;
+        height: 50px;
+    }
+
+    .draggable-sticker-wrapper {
+        width: 60px;
+    }
+}
+
+.printing .sticker-close-btn {
+    display: none !important;
+}
+
+.printing .draggable-sticker-wrapper {
+    border-color: transparent !important;
+    padding: 0 !important;
+}
+
+/* Click to Edit Hint */
+.click-to-edit-hint {
+    position: absolute;
+    top: -55px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    z-index: 100;
+    font-family: 'Cedarville Cursive', cursive;
+    color: #4e4e4e;
+    font-size: 1.15rem;
+    font-weight: 500;
+    transform: rotate(4deg);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    user-select: none;
+}
+
+.click-to-edit-hint svg {
+    margin-top: -2px;
+    transform: rotate(-10deg);
+}
+
+/* Hide hint when focused or has content */
+.future-letter:focus-within .click-to-edit-hint,
+.love-letter-canvas:focus-within .click-to-edit-hint {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) rotate(4deg);
+}
+
+.future-letter:has(textarea:not(:placeholder-shown)) .click-to-edit-hint,
+.love-letter-canvas:has(textarea:not(:placeholder-shown)) .click-to-edit-hint {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) rotate(4deg);
+}
+
+/* Printing compatibility */
+.printing .click-to-edit-hint {
+    display: none !important;
+}
+
+/* Recipient name spacing adjustment */
+#recipientName {
+    margin-bottom: 45px;
+}
