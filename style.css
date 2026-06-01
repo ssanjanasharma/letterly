@@ -2,7 +2,6 @@
 
 :root {
     --outer-bg: url("bg.jpg");
-    --inner-bg: url("bg1.jpg");
     --primary: #b21f39;
 }
 
@@ -71,8 +70,7 @@ body {
 
 .hero-card {
     width: min(600px, 90%);
-    height: 480px;
-    background-image: var(--inner-bg);
+    height: 460px;
     background-size: cover;
     background-position: center;
     border-radius: 30px;
@@ -80,11 +78,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 .subtitle {
-    font-size: 18px;
+    font-size: 17px;
     letter-spacing: 4px;
     line-height: 2;
     text-align: center;
@@ -334,11 +331,13 @@ body {
     border: 2px dashed transparent;
     padding: 8px;
     box-sizing: content-box;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background-color 0.2s;
 }
 
-.draggable-sticker-wrapper:hover {
-    border-color: rgba(178, 31, 57, 0.4);
+.draggable-sticker-wrapper:hover,
+.draggable-sticker-wrapper.active {
+    border-color: rgba(178, 31, 57, 0.5);
+    background-color: rgba(178, 31, 57, 0.02);
     border-radius: 8px;
 }
 
@@ -350,35 +349,69 @@ body {
     pointer-events: none;
 }
 
-.sticker-close-btn {
+/* Sticker control buttons (close, zoom-in, zoom-out) */
+.sticker-control-btn {
     position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: #b21f39;
+    background: #ffc2cc;
     color: white;
     border: none;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     opacity: 0;
-    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s, background-color 0.2s;
     line-height: 1;
     z-index: 12;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.draggable-sticker-wrapper:hover .sticker-close-btn {
+.sticker-close-btn {
+    top: -10px;
+    right: -10px;
+}
+
+.sticker-zoom-in-btn {
+    top: -10px;
+    left: -10px;
+    background: #8af2a2; /* Beautiful deep green */
+}
+
+.sticker-zoom-out-btn {
+    bottom: -10px;
+    right: -10px;
+    background: #c1d7ef; /* Beautiful deep blue */
+}
+
+/* Show buttons on hover or when wrapper is active */
+.draggable-sticker-wrapper:hover .sticker-control-btn,
+.draggable-sticker-wrapper.active .sticker-control-btn {
     opacity: 1;
+    pointer-events: auto;
+}
+
+.sticker-control-btn:hover {
+    transform: scale(1.15);
 }
 
 .sticker-close-btn:hover {
-    transform: scale(1.1);
+    background: #ffc2cc;
+}
+
+.sticker-zoom-in-btn:hover {
+    background: #8af2a2;
+}
+
+.sticker-zoom-out-btn:hover {
+    background: #c1d7ef;
 }
 
 .link-box {
@@ -603,7 +636,7 @@ body {
     }
 }
 
-.printing .sticker-close-btn {
+.printing .sticker-control-btn {
     display: none !important;
 }
 

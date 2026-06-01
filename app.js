@@ -58,6 +58,21 @@ const paper =
 
 
 
+function adjustStickerSize(element, delta) {
+    let size = parseFloat(element.style.width) || 100;
+    size += delta;
+    size = Math.max(50, size);
+    size = Math.min(paper.offsetWidth - 20, size);
+    element.style.width = size + "px";
+
+    // Immediately enforce constraints after resizing
+    const currentLeft = parseFloat(element.style.left) || 0;
+    const currentTop = parseFloat(element.style.top) || 0;
+    const constrained = limitDrag(currentLeft, currentTop, element, paper);
+    element.style.left = constrained.left + "px";
+    element.style.top = constrained.top + "px";
+}
+
 stickerItems.forEach(sticker => {
 
     sticker.addEventListener("click", () => {
@@ -86,7 +101,7 @@ stickerItems.forEach(sticker => {
         wrapper.appendChild(newSticker);
 
         const closeBtn = document.createElement("button");
-        closeBtn.classList.add("sticker-close-btn");
+        closeBtn.classList.add("sticker-control-btn", "sticker-close-btn");
         closeBtn.innerHTML = "×";
         closeBtn.title = "Remove sticker";
         closeBtn.addEventListener("click", (e) => {
@@ -95,12 +110,55 @@ stickerItems.forEach(sticker => {
         });
         wrapper.appendChild(closeBtn);
 
+        const zoomInBtn = document.createElement("button");
+        zoomInBtn.classList.add("sticker-control-btn", "sticker-zoom-in-btn");
+        zoomInBtn.innerHTML = "+";
+        zoomInBtn.title = "Make sticker larger";
+        zoomInBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            adjustStickerSize(wrapper, 15);
+        });
+        wrapper.appendChild(zoomInBtn);
+
+        const zoomOutBtn = document.createElement("button");
+        zoomOutBtn.classList.add("sticker-control-btn", "sticker-zoom-out-btn");
+        zoomOutBtn.innerHTML = "−";
+        zoomOutBtn.title = "Make sticker smaller";
+        zoomOutBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            adjustStickerSize(wrapper, -15);
+        });
+        wrapper.appendChild(zoomOutBtn);
+
+        wrapper.addEventListener("click", (e) => {
+            paper.querySelectorAll(".draggable-sticker-wrapper").forEach(el => {
+                if (el !== wrapper) el.classList.remove("active");
+            });
+            wrapper.classList.add("active");
+            e.stopPropagation();
+        });
+
         paper.appendChild(wrapper);
 
         makeDraggable(wrapper);
 
     });
 
+});
+
+// Deselect stickers when tapping/clicking outside
+document.addEventListener("click", () => {
+    document.querySelectorAll(".draggable-sticker-wrapper").forEach(el => {
+        el.classList.remove("active");
+    });
+});
+
+document.addEventListener("touchstart", (e) => {
+    if (!e.target.closest(".draggable-sticker-wrapper")) {
+        document.querySelectorAll(".draggable-sticker-wrapper").forEach(el => {
+            el.classList.remove("active");
+        });
+    }
 });
 
 
@@ -121,15 +179,16 @@ function limitDrag(left, top, element, paper) {
 function makeDraggable(element) {
 
     let isDragging = false;
-
     let offsetX = 0;
     let offsetY = 0;
+    let initialDistance = 0;
+    let initialWidth = 100;
 
     // Mouse events
     element.addEventListener(
         "mousedown",
         (e) => {
-            if (e.target.classList.contains("sticker-close-btn")) return;
+            if (e.target.classList.contains("sticker-control-btn")) return;
             isDragging = true;
 
             const rect = element.getBoundingClientRect();
@@ -166,17 +225,28 @@ function makeDraggable(element) {
         }
     );
 
-    // Touch events for mobile/tablet dragging
+    // Touch events for mobile/tablet dragging and pinch-to-zoom scaling
     element.addEventListener(
         "touchstart",
         (e) => {
-            if (e.target.classList.contains("sticker-close-btn")) return;
-            isDragging = true;
+            if (e.target.classList.contains("sticker-control-btn")) return;
 
-            const touch = e.touches[0];
-            const rect = element.getBoundingClientRect();
-            offsetX = touch.clientX - rect.left;
-            offsetY = touch.clientY - rect.top;
+            if (e.touches.length === 2) {
+                isDragging = false; // Disable dragging when scaling
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+                initialWidth = parseFloat(element.style.width) || 100;
+            } else if (e.touches.length === 1) {
+                isDragging = true;
+                const touch = e.touches[0];
+                const rect = element.getBoundingClientRect();
+                offsetX = touch.clientX - rect.left;
+                offsetY = touch.clientY - rect.top;
+            }
         },
         { passive: true }
     );
@@ -184,6 +254,28 @@ function makeDraggable(element) {
     document.addEventListener(
         "touchmove",
         (e) => {
+            if (e.touches.length === 2 && initialDistance > 0) {
+                e.preventDefault(); // Stop mobile viewport scrolling while scaling
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+                const factor = currentDistance / initialDistance;
+                let size = initialWidth * factor;
+
+                size = Math.max(50, size);
+                size = Math.min(paper.offsetWidth - 20, size);
+                element.style.width = size + "px";
+
+                const currentLeft = parseFloat(element.style.left) || 0;
+                const currentTop = parseFloat(element.style.top) || 0;
+                const constrained = limitDrag(currentLeft, currentTop, element, paper);
+                element.style.left = constrained.left + "px";
+                element.style.top = constrained.top + "px";
+                return;
+            }
 
             if (!isDragging)
                 return;
@@ -207,6 +299,7 @@ function makeDraggable(element) {
         "touchend",
         () => {
             isDragging = false;
+            initialDistance = 0;
         }
     );
 
@@ -214,36 +307,9 @@ function makeDraggable(element) {
     element.addEventListener(
         "wheel",
         (e) => {
-
             e.preventDefault();
-
-            // Use element style width directly to avoid box-model padding/border offset issues
-            let size =
-                parseFloat(element.style.width) || 100;
-
-            if (e.deltaY < 0) {
-
-                size += 10;
-
-            } else {
-
-                size -= 10;
-
-            }
-
-            size = Math.max(50, size);
-            size = Math.min(paper.offsetWidth - 20, size);
-
-            element.style.width =
-                size + "px";
-
-            // Immediately enforce constraints after resizing
-            const currentLeft = parseFloat(element.style.left) || 0;
-            const currentTop = parseFloat(element.style.top) || 0;
-            const constrained = limitDrag(currentLeft, currentTop, element, paper);
-            element.style.left = constrained.left + "px";
-            element.style.top = constrained.top + "px";
-
+            const delta = e.deltaY < 0 ? 10 : -10;
+            adjustStickerSize(element, delta);
         }
     );
 
@@ -324,8 +390,9 @@ createLetterBtn?.addEventListener(
         );
 
         // Generate robust link pointing to view-letter.html
-        const link =
-            window.location.href.replace("loved-one.html", `view-letter.html?id=${id}`);
+        const baseUrl = window.location.href.split('?')[0].split('#')[0];
+        const newBaseUrl = baseUrl.replace(/loved-one(\.html|\/)?$/, 'view-letter.html');
+        const link = `${newBaseUrl}?id=${id}`;
 
         document.getElementById(
             "generatedLink"
@@ -355,3 +422,4 @@ copyBtn?.addEventListener(
 
     }
 );
+
